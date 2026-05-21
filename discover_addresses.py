@@ -28,7 +28,7 @@ load_dotenv()
 
 DISCOVER_TOP = Path(__file__).parent / "queries" / "discover_top_receivers.graphql"
 DISCOVER_LIGHT = Path(__file__).parent / "queries" / "discover_light_receivers.graphql"
-DISCOVER_TIMEOUT_SEC = 60
+DEFAULT_DISCOVER_TIMEOUT_SEC = int(os.getenv("DISCOVER_TIMEOUT_SEC", "60"))
 
 DEFAULT_TOP_N = int(os.getenv("DISCOVER_TOP_N", "2000"))
 DEFAULT_LIGHT_N = int(os.getenv("DISCOVER_LIGHT_N", "2000"))
@@ -116,15 +116,16 @@ async def run_discovery(
     top_n: int,
     light_n: int,
     output: Path,
+    timeout_sec: int = DEFAULT_DISCOVER_TIMEOUT_SEC,
 ) -> list[ReceiverProfile]:
     if not os.getenv("BITQUERY_TOKEN"):
         raise SystemExit("Set BITQUERY_TOKEN in .env")
 
-    discover_timeout = aiohttp.ClientTimeout(total=DISCOVER_TIMEOUT_SEC)
+    discover_timeout = aiohttp.ClientTimeout(total=timeout_sec)
     async with aiohttp.ClientSession(timeout=discover_timeout) as session:
         print(
             f"Fetching {top_n} desc + {light_n} asc receivers "
-            f"(timeout {DISCOVER_TIMEOUT_SEC}s each)…"
+            f"(timeout {timeout_sec}s each)…"
         )
         desc = await _fetch_ranked(
             session, query_path=DISCOVER_TOP, pool_size=top_n, label="desc"
@@ -147,7 +148,7 @@ async def run_discovery(
             "Transfer.Amount": "> 0.1",
             "dataset": "combined",
         },
-        "discover_timeout_sec": DISCOVER_TIMEOUT_SEC,
+        "discover_timeout_sec": timeout_sec,
         "receivers": [asdict(p) for p in profiles],
     }
     output.write_text(json.dumps(payload, indent=2), encoding="utf-8")
@@ -177,9 +178,25 @@ def main() -> None:
         default=DEFAULT_POOL_PATH,
         help="Output JSON path",
     )
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=DEFAULT_DISCOVER_TIMEOUT_SEC,
+        help=(
+            "HTTP timeout per discovery query in seconds "
+            "(env DISCOVER_TIMEOUT_SEC; default 60)"
+        ),
+    )
     args = parser.parse_args()
+    if args.timeout <= 0:
+        parser.error("--timeout must be a positive integer (seconds)")
     asyncio.run(
-        run_discovery(top_n=args.top, light_n=args.light, output=args.output)
+        run_discovery(
+            top_n=args.top,
+            light_n=args.light,
+            output=args.output,
+            timeout_sec=args.timeout,
+        )
     )
 
 

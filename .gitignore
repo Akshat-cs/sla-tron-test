@@ -1,7 +1,6 @@
 .venv/
 .env
 logs/
-data/receivers_pool.json
 __pycache__/
 .pytest_cache/
 *.pyc
