@@ -1,0 +1,19 @@
+# Ranks receivers by inbound transfer count (same filters as the SLA query, minus receiver).
+query DiscoverTopReceivers($pool_size: Int) {
+  Tron(network: tron, dataset: combined) {
+    Transfers(
+      where: {
+        Block: {Time: {since_relative: {days_ago: 90}}}
+        TransactionStatus: {Success: true}
+        Transfer: {Amount: {gt: "0.1"}}
+      }
+      orderBy: {descendingByField: "txs"}
+      limit: {count: $pool_size}
+    ) {
+      Transfer {
+        Receiver
+      }
+      txs: count
+    }
+  }
+}

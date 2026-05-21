@@ -1,0 +1,10 @@
+subscription TronTransferFreshness {
+  Tron(network: tron) {
+    Transfers {
+      Block {
+        Time
+        Number
+      }
+    }
+  }
+}
