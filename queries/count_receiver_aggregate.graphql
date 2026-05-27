@@ -1,0 +1,17 @@
+# Aggregate inbound transfer count for one receiver (discovery-style filters + time window).
+query CountReceiverAggregate($receiver: String!, $days_ago: Int!) {
+  Tron(network: tron, dataset: combined) {
+    Transfers(
+      where: {
+        Block: { Time: { since_relative: { days_ago: $days_ago } } }
+        TransactionStatus: { Success: true }
+        Transfer: {
+          Receiver: { is: $receiver }
+          Amount: { gt: "0.1" }
+        }
+      }
+    ) {
+      txs: count
+    }
+  }
+}

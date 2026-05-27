@@ -1,0 +1,16 @@
+query W3cSolanaTransfersV1($addresses: [String!], $from: ISO8601DateTime!, $to: ISO8601DateTime!) {
+  solana(network: solana) {
+    sending: transfers(
+      date: {since: $from, till: $to}
+      senderAddress: {in: $addresses}
+    ) {
+      amount(in: USD, calculate: sum)
+    }
+    receiving: transfers(
+      date: {since: $from, till: $to}
+      receiverAddress: {in: $addresses}
+    ) {
+      amount(in: USD, calculate: sum)
+    }
+  }
+}

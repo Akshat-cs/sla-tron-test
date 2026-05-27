@@ -1,0 +1,26 @@
+query W3cEvmTransfers($network: evm_network!, $addresses: [String!]!, $from: String!, $to: String!) {
+  EVM(network: $network, dataset: archive) {
+    Sending: Transfers(
+      where: {
+        Block: {Date: {since: $from, till: $to}}
+        Transfer: {Sender: {in: $addresses}}
+      }
+    ) {
+      Transfer_AmountInUSD: sum(of: Transfer_AmountInUSD)
+      Transfer {
+        Sender
+      }
+    }
+    Receiving: Transfers(
+      where: {
+        Block: {Date: {since: $from, till: $to}}
+        Transfer: {Receiver: {in: $addresses}}
+      }
+    ) {
+      Transfer_AmountInUSD: sum(of: Transfer_AmountInUSD)
+      Transfer {
+        Receiver
+      }
+    }
+  }
+}

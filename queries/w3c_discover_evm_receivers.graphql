@@ -1,0 +1,14 @@
+query W3cDiscoverEvmReceivers($network: evm_network!, $limit: Int!, $from: String!, $to: String!, $min_txs: String!, $max_txs: String!) {
+  EVM(network: $network, dataset: archive) {
+    Transfers(
+      where: {Block: {Date: {since: $from, till: $to}}}
+      orderBy: {descendingByField: "txs"}
+      limit: {count: $limit}
+    ) {
+      Transfer {
+        Receiver
+      }
+      txs: count(selectWhere: {ge: $min_txs, lt: $max_txs})
+    }
+  }
+}

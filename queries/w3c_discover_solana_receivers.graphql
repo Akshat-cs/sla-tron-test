@@ -1,0 +1,13 @@
+query W3cDiscoverSolanaReceiversV1($limit: Int!, $from: ISO8601DateTime!, $to: ISO8601DateTime!) {
+  solana(network: solana) {
+    transfers(
+      date: {since: $from, till: $to}
+      options: {limit: $limit, asc: "count"}
+    ) {
+      count
+      receiver {
+        address
+      }
+    }
+  }
+}
