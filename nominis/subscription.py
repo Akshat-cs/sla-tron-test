@@ -10,10 +10,10 @@ from pathlib import Path
 
 import aiohttp
 
-from graphql_client import _parse_block_time
+from nominis.client import _parse_block_time
 
 SUBSCRIPTION_PATH = (
-    Path(__file__).parent / "queries" / "tron_freshness_subscription.graphql"
+    Path(__file__).parent.parent / "queries" / "nominis" / "tron_freshness_subscription.graphql"
 )
 LOG_SUBSCRIPTION_BLOCKS = os.getenv("LOG_SUBSCRIPTION_BLOCKS", "true").lower() in (
     "1",

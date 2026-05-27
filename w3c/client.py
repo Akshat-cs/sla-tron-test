@@ -19,7 +19,7 @@ from dataclasses import dataclass
 
 import aiohttp
 
-from w3c_workload import W3cRequest, build_query_for_chain, build_variables
+from w3c.workload import W3cRequest, build_query_for_chain, build_variables
 
 
 @dataclass

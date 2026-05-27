@@ -8,7 +8,7 @@ import random
 from dataclasses import dataclass
 from pathlib import Path
 
-DEFAULT_POOL_PATH = Path(__file__).parent / "data" / "receivers_pool.json"
+DEFAULT_POOL_PATH = Path(__file__).parent.parent / "data" / "receivers_pool.json"
 MIN_POOL_SIZE = int(os.getenv("MIN_POOL_SIZE", "1"))
 
 
@@ -49,7 +49,7 @@ class AddressPool:
         if not path.exists():
             raise FileNotFoundError(
                 f"Receiver pool not found: {path}\n"
-                "Run: python discover_addresses.py\n"
+                "Run: python -m nominis.discover\n"
                 "(builds 2000 desc + 2000 asc addresses — no single RECEIVER fallback)"
             )
         data = json.loads(path.read_text(encoding="utf-8"))

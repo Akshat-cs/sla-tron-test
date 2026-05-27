@@ -1,6 +1,6 @@
 """W3C multi-chain SLA settings — defaults, env, and CLI overrides.
 
-Kept fully separate from sla_config.py (Nomics/Tron) so the two scenarios
+Kept fully separate from nominis/config.py so the two scenarios
 cannot accidentally clobber each other's globals.
 """
 

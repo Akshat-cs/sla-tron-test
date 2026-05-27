@@ -17,9 +17,9 @@ from datetime import datetime, timezone
 import aiohttp
 from dotenv import load_dotenv
 
-from address_pool import AddressPool, set_random_seed
-from graphql_client import execute_transfer_query
-from sla_config import (
+from nominis.address_pool import AddressPool, set_random_seed
+from nominis.client import execute_transfer_query
+from nominis.config import (
     MAX_RECORDS_PER_QUERY,
     SlaSettings,
     configure,
@@ -27,7 +27,7 @@ from sla_config import (
     get_settings,
     reset_settings,
 )
-from sla_metrics import (
+from nominis.metrics import (
     SlaReport,
     categorize_sla_failure,
     classify_requests,
@@ -36,9 +36,9 @@ from sla_metrics import (
     metric_freshness,
     metric_query_response_time,
 )
-from run_logging import close_run_logging, setup_run_logging
-from subscription_client import collect_freshness_lags
-from unsuccessful_log import (
+from nominis.subscription import collect_freshness_lags
+from utils.logging_setup import close_run_logging, setup_run_logging
+from utils.unsuccessful_log import (
     close_unsuccessful_log,
     get_path as get_unsuccessful_log_path,
     log_unsuccessful,

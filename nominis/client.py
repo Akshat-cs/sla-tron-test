@@ -7,7 +7,7 @@ from pathlib import Path
 
 import aiohttp
 
-QUERY_PATH = Path(__file__).parent / "queries" / "tron_transfers.graphql"
+QUERY_PATH = Path(__file__).parent.parent / "queries" / "nominis" / "tron_transfers.graphql"
 
 
 @dataclass
