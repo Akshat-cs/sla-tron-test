@@ -1,19 +1,23 @@
 """
-Nomics SLA measurement — prints fulfillment % per metric (no pass/fail).
+Nominis SLA measurement smoke test — runs the full report end-to-end.
 
-Run:  python sla_report.py
-   or: python test_nomics_sla.py
-   or: pytest test_nomics_sla.py -v
+Run:  pytest tests/test_nominis.py -v
+   or: python -m pytest tests/ -v
 """
 
+from __future__ import annotations
+
+import asyncio
 import os
+import sys
+from pathlib import Path
 
 import pytest
 from dotenv import load_dotenv
 
-import asyncio
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from sla_report import init_sla, run_report
+from nominis.report import init_sla, run_report  # noqa: E402
 
 load_dotenv()
 
@@ -23,7 +27,7 @@ def _require_token() -> None:
         pytest.skip("Set BITQUERY_TOKEN in .env")
 
 
-def test_nomics_sla_report(capsys):
+def test_nominis_sla_report(capsys):
     """Generate SLA fulfillment report (always passes — inspect % in output)."""
     _require_token()
     init_sla([])
@@ -33,6 +37,6 @@ def test_nomics_sla_report(capsys):
 
 
 if __name__ == "__main__":
-    from sla_report import main
+    from nominis.report import main
 
     main()

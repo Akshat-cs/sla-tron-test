@@ -22,8 +22,8 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-_REPO_ROOT = Path(__file__).parent
-_QUERIES_DIR = _REPO_ROOT / "queries"
+_REPO_ROOT = Path(__file__).parent.parent
+_QUERIES_DIR = _REPO_ROOT / "queries" / "w3c"
 DEFAULT_W3C_POOL_PATH = _REPO_ROOT / "data" / "w3c_addresses.json"
 
 # Workload knobs (W3C requirement: up to 3 addresses batched per query, up to 5 chains).
@@ -75,40 +75,40 @@ CHAINS: tuple[Chain, ...] = (
     Chain(
         name="ethereum",
         family="evm",
-        query_file="w3c_evm_transfers.graphql",
-        discovery_file="w3c_discover_evm_receivers.graphql",
+        query_file="evm_transfers.graphql",
+        discovery_file="discover_evm_receivers.graphql",
         endpoint_env=ENV_V2_URL,
         evm_network="eth",
     ),
     Chain(
         name="bsc",
         family="evm",
-        query_file="w3c_evm_transfers.graphql",
-        discovery_file="w3c_discover_evm_receivers.graphql",
+        query_file="evm_transfers.graphql",
+        discovery_file="discover_evm_receivers.graphql",
         endpoint_env=ENV_V2_URL,
         evm_network="bsc",
     ),
     Chain(
         name="matic",
         family="evm",
-        query_file="w3c_evm_transfers.graphql",
-        discovery_file="w3c_discover_evm_receivers.graphql",
+        query_file="evm_transfers.graphql",
+        discovery_file="discover_evm_receivers.graphql",
         endpoint_env=ENV_V2_URL,
         evm_network="matic",
     ),
     Chain(
         name="arbitrum",
         family="evm",
-        query_file="w3c_evm_transfers.graphql",
-        discovery_file="w3c_discover_evm_receivers.graphql",
+        query_file="evm_transfers.graphql",
+        discovery_file="discover_evm_receivers.graphql",
         endpoint_env=ENV_V2_URL,
         evm_network="arbitrum",
     ),
     Chain(
         name="solana",
         family="solana_v1",
-        query_file="w3c_solana_transfers.graphql",
-        discovery_file="w3c_discover_solana_receivers.graphql",
+        query_file="solana_transfers.graphql",
+        discovery_file="discover_solana_receivers.graphql",
         endpoint_env=ENV_V1_URL,
     ),
 )
@@ -170,7 +170,7 @@ class AddressBook:
         if not target.is_file():
             raise FileNotFoundError(
                 f"W3C address pool not found: {target}\n"
-                "Run:  python discover_w3c_addresses.py\n"
+                "Run:  python -m w3c.discover\n"
                 "(builds top-receivers per chain; or edit data/w3c_addresses.json by hand.)"
             )
         raw = json.loads(target.read_text(encoding="utf-8"))

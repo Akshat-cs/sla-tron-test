@@ -36,7 +36,7 @@ class _Tee:
 def setup_run_logging(log_dir: str | None = None) -> Path:
     """
     Duplicate all print() / stdout to logs/sla_<timestamp>.log.
-    Call once at start of sla_report.py (or test_nomics_sla.py).
+    Call once at start of nominis.report / w3c.report (or the pytest entry).
     """
     global _LOG_FILE, _ORIGINAL_STDOUT, _ORIGINAL_STDERR
 

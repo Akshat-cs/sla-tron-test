@@ -1,6 +1,6 @@
 """W3C SLA metrics + report rendering.
 
-Separate from sla_metrics.py (Nomics/Tron) — the two scenarios measure different
+Separate from nominis/metrics.py — the two scenarios measure different
 things. The W3C test cares about: sustained throughput, response-time percentiles,
 and per-chain success rate. There is NO row-count check (the W3C query is an
 aggregation that returns 0-2 result rows by design).
@@ -13,8 +13,8 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from w3c_client import W3cQueryOutcome
-from w3c_config import get_settings
+from w3c.client import W3cQueryOutcome
+from w3c.config import get_settings
 
 _HTTP_STATUS_RE = re.compile(r"^http\s+(\d{3})", re.IGNORECASE)
 

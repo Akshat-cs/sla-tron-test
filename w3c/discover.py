@@ -6,7 +6,7 @@ For each chain in CHAINS:
     BITQUERY_GRAPHQL_URL.
   * Solana → V1 top-receivers query on BITQUERY_V1_URL.
 
-Writes data/w3c_addresses.json in this shape (consumed by w3c_workload.AddressBook):
+Writes data/w3c_addresses.json in this shape (consumed by w3c.workload.AddressBook):
 
   {
     "generated_at": "2026-05-27T10:30:00Z",
@@ -19,13 +19,13 @@ Writes data/w3c_addresses.json in this shape (consumed by w3c_workload.AddressBo
   }
 
 Usage:
-  python discover_w3c_addresses.py                          # 1000 per chain, 365 days
-  python discover_w3c_addresses.py --per-chain 500
-  python discover_w3c_addresses.py --chains ethereum,solana
-  python discover_w3c_addresses.py --days 180 --timeout 300
-  python discover_w3c_addresses.py --days 365 --solana-days 30   # shorter window for Solana V1
-  python discover_w3c_addresses.py --max-txs 50000 --overfetch 5  # realism cap (default)
-  python discover_w3c_addresses.py --max-txs 10000 --min-txs 100  # tighter realism band
+  python -m w3c.discover                          # 1000 per chain, 365 days
+  python -m w3c.discover --per-chain 500
+  python -m w3c.discover --chains ethereum,solana
+  python -m w3c.discover --days 180 --timeout 300
+  python -m w3c.discover --days 365 --solana-days 30   # shorter window for Solana V1
+  python -m w3c.discover --max-txs 50000 --overfetch 5  # realism cap (default)
+  python -m w3c.discover --max-txs 10000 --min-txs 100  # tighter realism band
 """
 
 from __future__ import annotations
@@ -42,7 +42,7 @@ from pathlib import Path
 import aiohttp
 from dotenv import load_dotenv
 
-from w3c_workload import (
+from w3c.workload import (
     CHAINS,
     CHAINS_BY_NAME,
     Chain,

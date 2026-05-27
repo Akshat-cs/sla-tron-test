@@ -5,7 +5,7 @@ Fetches 2000 receivers from descending tx count + 2000 from ascending (90-day wi
 merges into one pool (up to 4000 unique addresses). No per-address probing.
 
 Run before SLA tests:
-  python discover_addresses.py
+  python -m nominis.discover
 """
 
 from __future__ import annotations
@@ -21,13 +21,13 @@ from pathlib import Path
 import aiohttp
 from dotenv import load_dotenv
 
-from address_pool import DEFAULT_POOL_PATH, ReceiverProfile
-from graphql_client import execute_graphql
+from nominis.address_pool import DEFAULT_POOL_PATH, ReceiverProfile
+from nominis.client import execute_graphql
 
 load_dotenv()
 
-DISCOVER_TOP = Path(__file__).parent / "queries" / "discover_top_receivers.graphql"
-DISCOVER_LIGHT = Path(__file__).parent / "queries" / "discover_light_receivers.graphql"
+DISCOVER_TOP = Path(__file__).parent.parent / "queries" / "nominis" / "discover_top_receivers.graphql"
+DISCOVER_LIGHT = Path(__file__).parent.parent / "queries" / "nominis" / "discover_light_receivers.graphql"
 DEFAULT_DISCOVER_TIMEOUT_SEC = int(os.getenv("DISCOVER_TIMEOUT_SEC", "60"))
 
 DEFAULT_TOP_N = int(os.getenv("DISCOVER_TOP_N", "2000"))

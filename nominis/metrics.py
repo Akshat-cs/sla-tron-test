@@ -7,7 +7,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from sla_config import get_settings
+from nominis.config import get_settings
 
 
 _HTTP_STATUS_RE = re.compile(r"^http\s+(\d{3})", re.IGNORECASE)

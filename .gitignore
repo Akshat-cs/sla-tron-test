@@ -1,8 +1,22 @@
-.venv/
-.env
-logs/
+# Python
 __pycache__/
-.pytest_cache/
 *.pyc
+.pytest_cache/
+
+# Virtualenvs
+.venv/
+
+# Secrets
+.env
+
+# Local run output (sla_<timestamp>.log etc.)
+logs/
+logs.log
+
+# macOS / editor cruft
+.DS_Store
+*.swp
 
 
+
+.gitignore

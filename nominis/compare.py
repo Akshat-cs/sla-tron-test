@@ -5,8 +5,8 @@ Compare transfer counts for one Tron address using the two methods used in SLA t
 2. SLA-style:       Row list from tron_transfers.graphql → len(Transfers) (no date filter, up to limit)
 
 Run:
-  python compare_address_counts.py TM4qYGqL7cKdZotQ53U2qDKkevaFkkge36
-  python compare_address_counts.py TM4qYGqL7cKdZotQ53U2qDKkevaFkkge36 --days 90 --limit 20000
+  python -m nominis.compare TM4qYGqL7cKdZotQ53U2qDKkevaFkkge36
+  python -m nominis.compare TM4qYGqL7cKdZotQ53U2qDKkevaFkkge36 --days 90 --limit 20000
 """
 
 from __future__ import annotations
@@ -21,14 +21,14 @@ from pathlib import Path
 import aiohttp
 from dotenv import load_dotenv
 
-from address_pool import DEFAULT_POOL_PATH, AddressPool
-from graphql_client import execute_graphql, execute_transfer_query
-from sla_config import MAX_RECORDS_PER_QUERY
-from sla_metrics import expected_row_count
+from nominis.address_pool import DEFAULT_POOL_PATH, AddressPool
+from nominis.client import execute_graphql, execute_transfer_query
+from nominis.config import MAX_RECORDS_PER_QUERY
+from nominis.metrics import expected_row_count
 
 load_dotenv()
 
-AGGREGATE_QUERY_PATH = Path(__file__).parent / "queries" / "count_receiver_aggregate.graphql"
+AGGREGATE_QUERY_PATH = Path(__file__).parent.parent / "queries" / "nominis" / "count_receiver_aggregate.graphql"
 DEFAULT_DAYS = int(os.getenv("DISCOVER_DAYS_AGO", "60"))
 COMPARE_TIMEOUT_SEC = 120
 
